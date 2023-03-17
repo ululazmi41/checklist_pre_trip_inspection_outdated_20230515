@@ -1,0 +1,2 @@
+# magang_checklist_pre_trip_inspection
+Projek Magang
