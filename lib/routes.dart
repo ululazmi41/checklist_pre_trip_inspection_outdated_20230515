@@ -1,15 +1,48 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:main/presentation/pages/dashboard_page.dart';
 import 'package:main/presentation/pages/home_page.dart';
+import 'package:main/presentation/pages/inspection/choose_type_page.dart';
+import 'package:main/presentation/pages/inspection/fill_header_page.dart';
+import 'package:main/presentation/pages/inspection/types/daily_inspection_page.dart';
+import 'package:main/presentation/pages/inspection/types/monthly_inspection_page.dart';
+import 'package:main/presentation/pages/inspection/types/weekly_inspection_page.dart';
 
 const placeholder = '';
-const initialRoute = 'home';
 
 MaterialPageRoute routes(RouteSettings settings) {
   switch (settings.name) {
-    case initialRoute:
+    case homeRoute:
       return MaterialPageRoute(
-        builder: (_) => const MyHomePage(),
+        builder: (_) => const DashboardPage(),
       );
+
+    // Inspection
+    case iChooseTypeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const ChooseTypePage(),
+      );
+    case iFillHeaderRoute:
+      return MaterialPageRoute(
+        builder: (_) => FillHeaderPage(
+          type: settings.arguments as String,
+        ),
+      );
+
+    // Inspection Types
+    case itDailyInspectionRoute:
+      return MaterialPageRoute(
+        builder: (_) => const InspectionDay(),
+      );
+    case itWeeklyInspectionRoute:
+      return MaterialPageRoute(
+        builder: (_) => const InspectionWeek(),
+      );
+    case itMonthlyInspectionRoute:
+      return MaterialPageRoute(
+        builder: (_) => const InspectionMonth(),
+      );
+
     case placeholder:
       return MaterialPageRoute(
         builder: (_) => const Placeholder(),
@@ -17,6 +50,10 @@ MaterialPageRoute routes(RouteSettings settings) {
   }
   // TODO: ignore? else make a default 404 page
   return MaterialPageRoute(
-    builder: (_) => const Placeholder(),
+    builder: (_) => const Scaffold(
+      body: Center(
+        child: Text("Page Not Ready"),
+      ),
+    ),
   );
 }
