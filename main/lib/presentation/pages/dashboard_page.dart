@@ -1,6 +1,8 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:main/presentation/components/checklist_tile.dart';
+import 'package:main/presentation/provider/database_provider.dart';
+import 'package:provider/provider.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -13,6 +15,54 @@ class DashboardPage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
+          Consumer<DatabaseProvider>(
+            builder: (context, value, child) {
+              if (value.databaseState == DatabaseState.loading) {
+                return const Center(
+                  child: Text("Loading"),
+                );
+              } else if (value.databaseState == DatabaseState.hasData) {
+                return Column(
+                  children: <Widget>[
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<DatabaseProvider>().resetDatabase();
+                      },
+                      child: const Text("Reset Database"),
+                    ),
+                    const Text("Inspections: "),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: value.inspections.length,
+                      itemBuilder: ((context, index) {
+                        return Column(
+                          children: <Widget>[
+                            Text("Inspection: ${value.inspections[index].id}"),
+                            Text(
+                                "Day: ${value.inspections[index].inspeksiHarian}"),
+                            Text(
+                                "Week: ${value.inspections[index].inspeksiMingguan}"),
+                            Text(
+                                "Month: ${value.inspections[index].inspeksiBulanan}"),
+                          ],
+                        );
+                      }),
+                    ),
+                  ],
+                );
+              } else if (value.databaseState == DatabaseState.noData) {
+                return const Center(
+                  child: Text("No Data"),
+                );
+              } else if (value.databaseState == DatabaseState.error) {
+                return const Center(
+                  child: Text("Unexpected error!"),
+                );
+              } else {
+                return Text("Unknown state: ${value.databaseState}");
+              }
+            },
+          ),
           ChecklistTile(
             icon: const Icon(
               Icons.note_add,

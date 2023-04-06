@@ -1,5 +1,8 @@
 import 'package:core/core.dart';
+import 'package:main/data/models/inspection_model.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:main/presentation/provider/database_provider.dart';
 
 class FillHeaderPage extends StatefulWidget {
   const FillHeaderPage({super.key, required this.type});
@@ -61,6 +64,14 @@ class IFillHeaderPageState extends State<FillHeaderPage> {
               children: <Widget>[
                 ElevatedButton(
                   onPressed: () {
+                    context.read<DatabaseProvider>().insertInspection(
+                          nomorPlat: nomorPlat.text,
+                          tipeKendaraan: tipeKendaraan.value.text,
+                          perusahaan: perusahaan.text,
+                          tanggal: tanggal.text,
+                          lokasi: lokasi.text,
+                        );
+
                     if (widget.type == 'daily') {
                       Navigator.of(context).pushNamed(itDailyInspectionRoute);
                     } else if (widget.type == 'weekly') {
@@ -101,5 +112,16 @@ class IFillHeaderPageState extends State<FillHeaderPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    nomorPlat.dispose();
+    tipeKendaraan.dispose();
+    perusahaan.dispose();
+    tanggal.dispose();
+    lokasi.dispose();
+
+    super.dispose();
   }
 }

@@ -1,6 +1,10 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:checklist_pre_trip_inspection/routes.dart';
+import 'package:main/data/datasources/db/database_helper.dart';
+import 'package:main/data/datasources/local_data_source.dart';
+import 'package:main/presentation/provider/database_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,15 +16,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: const Color(0xFFE5E8F0),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => DatabaseProvider(
+            localDataSourceImpl: LocalDataSourceImpl(
+              databaseHelper: DatabaseHelper(),
+            ),
+          ),
+        ),
+      ],
+      child: MaterialApp(
+        // title: 'Flutter Demo', // TODO: Remove this line of code
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          scaffoldBackgroundColor: const Color(0xFFE5E8F0),
+        ),
+        debugShowCheckedModeBanner: false,
+        initialRoute: homeRoute,
+        onGenerateRoute: routes,
       ),
-      debugShowCheckedModeBanner: false,
-      initialRoute: homeRoute,
-      onGenerateRoute: routes,
     );
   }
 }
