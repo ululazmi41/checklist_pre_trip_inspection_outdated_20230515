@@ -78,7 +78,10 @@ class _CheckTileState extends State<CheckTile> {
                           });
                         }
                       },
-                      child: const Icon(Icons.camera_alt),
+                      child: const Icon(
+                        Icons.camera_alt,
+                        color: Colors.blueGrey,
+                      ),
                     ),
               const SizedBox(width: 4.0),
             ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:main/presentation/components/checklist_tile.dart';
 import 'package:main/presentation/provider/database_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite_sqlcipher/sqflite.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key? key}) : super(key: key);
@@ -48,6 +49,35 @@ class DashboardPage extends StatelessWidget {
                         );
                       }),
                     ),
+                    const Text("Day Inspections: "),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: value.dayInspections.length,
+                      itemBuilder: ((context, index) {
+                        return Text("${value.dayInspections[index]}");
+                      }),
+                    ),
+                    const Text("Week Inspections: "),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: value.weekInspections.length,
+                      itemBuilder: ((context, index) {
+                        return Text("${value.weekInspections[index]}");
+                      }),
+                    ),
+                    const Text("Month Inspections: "),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: value.monthInspections.length,
+                      itemBuilder: ((context, index) {
+                        return Text("${value.monthInspections[index]}");
+                      }),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          context.read<DatabaseProvider>().fetchInspections();
+                        },
+                        child: const Text("Refresh Provider")),
                   ],
                 );
               } else if (value.databaseState == DatabaseState.noData) {

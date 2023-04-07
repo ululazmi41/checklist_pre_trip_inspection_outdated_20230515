@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:main/presentation/components/check_tile.dart';
+import 'package:main/presentation/provider/database_provider.dart';
+import 'package:provider/provider.dart';
 
 class InspectionMonth extends StatefulWidget {
   const InspectionMonth({super.key});
@@ -12,13 +14,13 @@ class InspectionMonth extends StatefulWidget {
 
 class InspectionMonthState extends State<InspectionMonth> {
   /* UJI FUNGSI (oleh pengemudi / bersama mekanik, uji dengan laju < 20kpj di lokasi aman) */
-  int ufKinerjaRem = 0;
-  int ufKinerjaMesin = 0;
-  int ufTransmisi = 0;
+  int kinerjaRem = 0;
+  int kinerjaMesin = 0;
+  int transmisi4WD = 0;
 
   /* CEK VISUAL */
-  int cvSekering = 0;
-  int cvBagianBawah = 0;
+  int sekering = 0;
+  int bagianBawahKendaraan = 0;
 
   File? photofile;
 
@@ -63,28 +65,28 @@ class InspectionMonthState extends State<InspectionMonth> {
             children: [
               CheckTile(
                 title: "KINERJA REM",
-                state: ufKinerjaRem,
+                state: kinerjaRem,
                 onChange: (int state) {
                   setState(() {
-                    ufKinerjaRem = state;
+                    kinerjaRem = state;
                   });
                 },
               ),
               CheckTile(
                 title: "Kinerja Mesin",
-                state: ufKinerjaMesin,
+                state: kinerjaMesin,
                 onChange: (int state) {
                   setState(() {
-                    ufKinerjaMesin = state;
+                    kinerjaMesin = state;
                   });
                 },
               ),
               CheckTile(
                 title: "Transmisi 4WD (jika dilengkapi)",
-                state: ufTransmisi,
+                state: transmisi4WD,
                 onChange: (int state) {
                   setState(() {
-                    ufTransmisi = state;
+                    transmisi4WD = state;
                   });
                 },
               ),
@@ -98,20 +100,20 @@ class InspectionMonthState extends State<InspectionMonth> {
             children: [
               CheckTile(
                 title: "Sekering (fuse)",
-                state: cvSekering,
+                state: sekering,
                 onChange: (int state) {
                   setState(() {
-                    cvSekering = state;
+                    sekering = state;
                   });
                 },
               ),
               CheckTile(
                 title:
                     "Bagian bawah kendaraan, suspensi, poros, propeller, axie",
-                state: cvBagianBawah,
+                state: bagianBawahKendaraan,
                 onChange: (int state) {
                   setState(() {
-                    cvBagianBawah = state;
+                    bagianBawahKendaraan = state;
                   });
                 },
               ),
@@ -121,12 +123,29 @@ class InspectionMonthState extends State<InspectionMonth> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orangeAccent,
-              ),
-              child: const Text("Simpan"),
+            Consumer<DatabaseProvider>(
+              builder: (context, value, child) {
+                return ElevatedButton(
+                  onPressed: () {
+                    if (value.inspectionId == null) {
+                      throw "no inspectionId is given";
+                    }
+
+                    context.read<DatabaseProvider>().insertInspectionMonth(
+                          inspectionId: value.inspectionId!,
+                          kinerjaRem: kinerjaRem,
+                          kinerjaMesin: kinerjaMesin,
+                          transmisi4WD: transmisi4WD,
+                          sekering: sekering,
+                          bagianBawahKendaraan: bagianBawahKendaraan,
+                        );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orangeAccent,
+                  ),
+                  child: const Text("Simpan"),
+                );
+              },
             ),
           ],
         ),

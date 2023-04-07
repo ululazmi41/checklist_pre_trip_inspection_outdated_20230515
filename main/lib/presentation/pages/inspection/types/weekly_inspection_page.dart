@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:main/presentation/components/check_tile.dart';
+import 'package:main/presentation/provider/database_provider.dart';
+import 'package:provider/provider.dart';
 
 class InspectionWeek extends StatefulWidget {
   const InspectionWeek({super.key});
@@ -12,20 +14,20 @@ class InspectionWeek extends StatefulWidget {
 
 class InspectionWeekState extends State<InspectionWeek> {
   /* BAGIAN MESIN - matikan mesin */
-  int bmMinyakRem = 0;
-  int bmMinyakPowerSteering = 0;
-  int bmVBelt = 0;
-  int bmBateraiAki = 0;
+  int minyakRem = 0;
+  int minyakPowerSteering = 0;
+  int vBelt = 0;
+  int bateraiAki = 0;
 
   /* Dalam Kabin dan Luar Kendaraan */
-  int dkRemParkir = 0;
-  int dkSandaranKepaladanJok = 0;
-  int dkSpion = 0;
-  int dkBagianBawahMesindanTransmisi = 0;
-  int dkBanCadanganDongkrakKunci = 0;
-  int dkAlatPemadamApiRingan = 0;
-  int dkItemP3K = 0;
-  int dkSegitigaReflektif = 0;
+  int remParkir = 0;
+  int sandaranKepalaJok = 0;
+  int spion = 0;
+  int bagianBawahMesindanTransmisi = 0;
+  int banCadanganDongrakKunci = 0; // TODO: TYPO
+  int alatPemadamApiRingan = 0;
+  int itemP3K = 0;
+  int segitigaReflektif = 0;
 
   File? photofile;
 
@@ -73,37 +75,37 @@ class InspectionWeekState extends State<InspectionWeek> {
             children: [
               CheckTile(
                 title: "MINYAK REM",
-                state: bmMinyakRem,
+                state: minyakRem,
                 onChange: (int state) {
                   setState(() {
-                    bmMinyakRem = state;
+                    minyakRem = state;
                   });
                 },
               ),
               CheckTile(
                 title: "MINYAK POWER + STEERING",
-                state: bmMinyakPowerSteering,
+                state: minyakPowerSteering,
                 onChange: (int state) {
                   setState(() {
-                    bmMinyakPowerSteering = state;
+                    minyakPowerSteering = state;
                   });
                 },
               ),
               CheckTile(
                 title: "V-BELT",
-                state: bmVBelt,
+                state: vBelt,
                 onChange: (int state) {
                   setState(() {
-                    bmVBelt = state;
+                    vBelt = state;
                   });
                 },
               ),
               CheckTile(
                 title: "Baterai Aki",
-                state: bmBateraiAki,
+                state: bateraiAki,
                 onChange: (int state) {
                   setState(() {
-                    bmBateraiAki = state;
+                    bateraiAki = state;
                   });
                 },
               ),
@@ -117,73 +119,73 @@ class InspectionWeekState extends State<InspectionWeek> {
             children: [
               CheckTile(
                 title: "REM PARKIR",
-                state: dkRemParkir,
+                state: remParkir,
                 onChange: (int state) {
                   setState(() {
-                    dkRemParkir = state;
+                    remParkir = state;
                   });
                 },
               ),
               CheckTile(
                 title: "SANDARAN KEPALA & Jok",
-                state: dkSandaranKepaladanJok,
+                state: sandaranKepalaJok,
                 onChange: (int state) {
                   setState(() {
-                    dkSandaranKepaladanJok = state;
+                    sandaranKepalaJok = state;
                   });
                 },
               ),
               CheckTile(
                 title: "SPION KIRI & KANAN, tengah",
-                state: dkSpion,
+                state: spion,
                 onChange: (int state) {
                   setState(() {
-                    dkSpion = state;
+                    spion = state;
                   });
                 },
               ),
               CheckTile(
                 title: "Bagian Bawah mesin & transmisi",
-                state: dkBagianBawahMesindanTransmisi,
+                state: bagianBawahMesindanTransmisi,
                 onChange: (int state) {
                   setState(() {
-                    dkBagianBawahMesindanTransmisi = state;
+                    bagianBawahMesindanTransmisi = state;
                   });
                 },
               ),
               CheckTile(
                 title: "Ban Cadangan, dongkrak, kunci\"",
-                state: dkBanCadanganDongkrakKunci,
+                state: banCadanganDongrakKunci, // TODO: TYPO
                 onChange: (int state) {
                   setState(() {
-                    dkBanCadanganDongkrakKunci = state;
+                    banCadanganDongrakKunci = state; // TODO: TYPO
                   });
                 },
               ),
               CheckTile(
                 title: "Alat Pemadam Api Ringan",
-                state: dkAlatPemadamApiRingan,
+                state: alatPemadamApiRingan,
                 onChange: (int state) {
                   setState(() {
-                    dkAlatPemadamApiRingan = state;
+                    alatPemadamApiRingan = state;
                   });
                 },
               ),
               CheckTile(
                 title: "Item P3K",
-                state: dkItemP3K,
+                state: itemP3K,
                 onChange: (int state) {
                   setState(() {
-                    dkItemP3K = state;
+                    itemP3K = state;
                   });
                 },
               ),
               CheckTile(
                 title: "Segitiga Reflektif",
-                state: dkSegitigaReflektif,
+                state: segitigaReflektif,
                 onChange: (int state) {
                   setState(() {
-                    dkSegitigaReflektif = state;
+                    segitigaReflektif = state;
                   });
                 },
               ),
@@ -193,13 +195,36 @@ class InspectionWeekState extends State<InspectionWeek> {
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orangeAccent,
-              ),
-              child: const Text("Simpan"),
-            ),
+            Consumer<DatabaseProvider>(builder: (context, value, child) {
+              return ElevatedButton(
+                onPressed: () {
+                  if (value.inspectionId == null) {
+                    throw "no inspectionId is given";
+                  }
+
+                  context.read<DatabaseProvider>().insertInspectionWeek(
+                        inspectionId: value.inspectionId!,
+                        minyakRem: minyakRem,
+                        minyakPowerSteering: minyakPowerSteering,
+                        vBelt: vBelt,
+                        bateraiAki: bateraiAki,
+                        remParkir: remParkir,
+                        sandaranKepalaJok: sandaranKepalaJok,
+                        spion: spion,
+                        bagianBawahMesindanTransmisi:
+                            bagianBawahMesindanTransmisi,
+                        banCadanganDongrakKunci: banCadanganDongrakKunci,
+                        alatPemadamApiRingan: alatPemadamApiRingan,
+                        itemP3K: itemP3K,
+                        segitigaReflektif: segitigaReflektif,
+                      );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent,
+                ),
+                child: const Text("Simpan"),
+              );
+            }),
           ],
         ),
       ],

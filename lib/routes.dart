@@ -1,7 +1,6 @@
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:main/presentation/pages/dashboard_page.dart';
-import 'package:main/presentation/pages/home_page.dart';
 import 'package:main/presentation/pages/inspection/choose_type_page.dart';
 import 'package:main/presentation/pages/inspection/fill_header_page.dart';
 import 'package:main/presentation/pages/inspection/types/daily_inspection_page.dart';

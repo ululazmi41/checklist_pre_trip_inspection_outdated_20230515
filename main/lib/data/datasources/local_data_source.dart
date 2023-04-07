@@ -10,6 +10,9 @@ import 'package:main/data/models/inspection_week_model.dart';
 abstract class LocalDataSource {
   Future<InspectionModel?> getInspectionById(int id);
   Future<List<InspectionModel>> getAllInspection();
+  Future<List<InspectionDayModel>> getAllDayInspection(); // TODO: remove?
+  Future<List<InspectionWeekModel>> getAllWeekInspection(); // TODO: remove?
+  Future<List<InspectionMonthModel>> getAllMonthInspection(); // TODO: remove?
   Future<bool> insertInspection(InspectionModel inspectionModel);
   Future<bool> insertDayInspection(InspectionDayModel inspectionDayModel);
   Future<bool> insertWeekInspection(InspectionWeekModel inspectionWeekModel);
@@ -68,6 +71,52 @@ class LocalDataSourceImpl extends LocalDataSource {
   }
 
   @override
+  Future<List<InspectionDayModel>> getAllDayInspection() async {
+    try {
+      final result = await databaseHelper.getAllDay();
+      if (result.isNotEmpty) {
+        return result.map((data) => InspectionDayModel.fromJson(data)).toList();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      throw DatabaseException("Failed to get all the data on day");
+    }
+  } // TODO: rmeove?
+
+  @override
+  Future<List<InspectionWeekModel>> getAllWeekInspection() async {
+    try {
+      final result = await databaseHelper.getAllWeek();
+      if (result.isNotEmpty) {
+        return result
+            .map((data) => InspectionWeekModel.fromJson(data))
+            .toList();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      throw DatabaseException("Failed to get all the data on week");
+    }
+  } // TODO: rmeove?
+
+  @override
+  Future<List<InspectionMonthModel>> getAllMonthInspection() async {
+    try {
+      final result = await databaseHelper.getAllMonth();
+      if (result.isNotEmpty) {
+        return result
+            .map((data) => InspectionMonthModel.fromJson(data))
+            .toList();
+      } else {
+        return [];
+      }
+    } catch (e) {
+      throw DatabaseException("Failed to get all the data on month");
+    }
+  } // TODO: rmeove?
+
+  @override
   Future<bool> insertInspection(InspectionModel inspectionModel) async {
     try {
       final result = await databaseHelper.insert(inspectionModel);
@@ -99,7 +148,7 @@ class LocalDataSourceImpl extends LocalDataSource {
     } catch (e) {
       return false;
     }
-  } // TODO:
+  }
 
   @override
   Future<bool> insertMonthInspection(
@@ -110,7 +159,7 @@ class LocalDataSourceImpl extends LocalDataSource {
     } catch (e) {
       return false;
     }
-  } // TODO:
+  }
 
   @override
   Future<bool> removeInspection(InspectionModel inspectionModel) async {

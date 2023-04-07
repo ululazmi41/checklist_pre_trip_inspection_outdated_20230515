@@ -45,7 +45,7 @@ class ChooseTypePage extends StatelessWidget {
               color: Colors.orangeAccent,
             ),
             title: const Text(
-              "Inspeksi Bulanan",
+              "Inspeksi Mingguan",
               style: TextStyle(
                 color: Colors.black54,
                 fontSize: 16.0,

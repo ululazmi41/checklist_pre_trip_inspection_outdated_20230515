@@ -53,55 +53,94 @@ class DatabaseHelper {
       );
     ''');
 
+    // TODO: FOREIGN KEY
+
     await db.execute('''
       CREATE TABLE $_tblInspectionDay (
         id INTEGER PRIMARY KEY,
+        inspectionId INTEGER,
         kacaDepanWiper INTEGER,
+        kacaDepanWiperFile TEXT,
         bodiKacaJendelaKacaBelakang INTEGER,
+        bodiKacaJendelaKacaBelakangFile TEXT,
         ban INTEGER,
+        banFile TEXT,
         lampu INTEGER,
+        lampuFile TEXT,
         pengamananBarangMuatan INTEGER,
+        pengamananBarangMuatanFile TEXT,
         oliMesin INTEGER,
+        oliMesinFile TEXT,
         airRadiator INTEGER,
+        airRadiatorFile TEXT,
         airWiper INTEGER,
+        airWiperFile TEXT,
         sabukPengaman INTEGER,
+        sabukPengamanFile TEXT,
         stirKlakson INTEGER,
+        stirKlaksonFile TEXT,
         dimGPSdanRFID INTEGER,
+        dimGPSdanRFIDFile TEXT,
         panelInstrumendanKontrol INTEGER,
+        panelInstrumendanKontrolFile TEXT,
         pedalGasRemKopling INTEGER,
+        pedalGasRemKoplingFile TEXT,
         penempatanBarangLepasan INTEGER,
+        penempatanBarangLepasanFile TEXT,
         lisensiDanIzinMengemudi INTEGER,
+        lisensiDanIzinMengemudiFile TEXT,
         suratKendaraan INTEGER,
-        jmpfmc INTEGER
+        suratKendaraanFile TEXT,
+        jmpfmc INTEGER,
+        jmpfmcFile TEXT
       );
     ''');
 
     await db.execute('''
       CREATE TABLE $_tblInspectionWeek (
         id INTEGER PRIMARY KEY,
+        inspectionId INTEGER,
         minyakRem INTEGER,
+        minyakRemFile TEXT,
         minyakPowerSteering INTEGER,
+        minyakPowerSteeringFile TEXT,
         vBelt INTEGER,
+        vBeltFile TEXT,
         bateraiAki INTEGER,
+        bateraiAkiFile TEXT,
         remParkir INTEGER,
+        remParkirFile TEXT,
         sandaranKepalaJok INTEGER,
+        sandaranKepalaJokFile TEXT,
         spion INTEGER,
+        spionFile TEXT,
         bagianBawahMesindanTransmisi INTEGER,
+        bagianBawahMesindanTransmisiFile TEXT,
         banCadanganDongrakKunci INTEGER,
+        banCadanganDongrakKunciFile TEXT,
         alatPemadamApiRingan INTEGER,
+        alatPemadamApiRinganFile TEXT,
         itemP3K INTEGER,
-        segitigaReflektif INTEGER
+        itemP3KFile TEXT,
+        segitigaReflektif INTEGER,
+        segitigaReflektifFile TEXT
       );
     ''');
 
     await db.execute('''
       CREATE TABLE $_tblInspectionMonth (
         id INTEGER PRIMARY KEY,
-        kinerjaRem BOOLEAN,
-        kinerjaMesin BOOLEAN,
-        transmisi4WD BOOLEAN,
-        sekering BOOLEAN,
-        bagianBawahKendaraan BOOLEAN
+        inspectionId INTEGER,
+        kinerjaRem INTEGER,
+        kinerjaRemFile TEXT,
+        kinerjaMesin INTEGER,
+        kinerjaMesinFile TEXT,
+        transmisi4WD INTEGER,
+        transmisi4WDFile TEXT,
+        sekering INTEGER,
+        sekeringFile TEXT,
+        bagianBawahKendaraan INTEGER,
+        bagianBawahKendaraanFile TEXT
       );
     ''');
   }
@@ -138,6 +177,33 @@ class DatabaseHelper {
     final db = await database;
     final results = await db!.query(
       _tblInspection,
+    );
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getAllDay() async {
+    final db = await database;
+    final results = await db!.query(
+      _tblInspectionDay,
+    );
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getAllWeek() async {
+    final db = await database;
+    final results = await db!.query(
+      _tblInspectionWeek,
+    );
+
+    return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getAllMonth() async {
+    final db = await database;
+    final results = await db!.query(
+      _tblInspectionMonth,
     );
 
     return results;

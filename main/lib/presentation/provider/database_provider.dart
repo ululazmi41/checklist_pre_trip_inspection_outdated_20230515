@@ -8,6 +8,13 @@ import 'package:main/data/models/inspection_model.dart';
 import 'package:main/data/models/inspection_month_model.dart';
 import 'package:main/data/models/inspection_week_model.dart';
 
+enum InspectionTypes {
+  inspection,
+  day,
+  week,
+  month,
+}
+
 int generateId() {
   String id = "";
 
@@ -18,8 +25,8 @@ int generateId() {
   return int.parse(id);
 }
 
-Future<int> generateInspectionId(
-    LocalDataSourceImpl localDataSourceImpl, String type) async {
+Future<int> generateInspectionId(LocalDataSourceImpl localDataSourceImpl,
+    InspectionTypes inspectionTypes) async {
   int generatedId;
   int iteration = 0;
 
@@ -32,16 +39,16 @@ Future<int> generateInspectionId(
     generatedId = generateId();
 
     late bool idExist;
-    if (type == 'inspection') {
+    if (inspectionTypes == InspectionTypes.inspection) {
       idExist = await localDataSourceImpl.checkInspectionId(generatedId);
-    } else if (type == 'day') {
+    } else if (inspectionTypes == InspectionTypes.day) {
       idExist = await localDataSourceImpl.checkInspectionDayId(generatedId);
-    } else if (type == 'week') {
+    } else if (inspectionTypes == InspectionTypes.week) {
       idExist = await localDataSourceImpl.checkInspectionWeekId(generatedId);
-    } else if (type == 'month') {
+    } else if (inspectionTypes == InspectionTypes.month) {
       idExist = await localDataSourceImpl.checkInspectionMonthId(generatedId);
     } else {
-      throw 'unknown type: $type';
+      throw 'unknown type: $inspectionTypes';
     }
     if (!idExist) {
       break;
@@ -62,10 +69,22 @@ class DatabaseProvider extends ChangeNotifier {
   List<InspectionModel> _inspections = [];
   List<InspectionModel> get inspections => _inspections;
 
+  List<InspectionDayModel> _dayInspections = []; // TODO: remove?
+  List<InspectionDayModel> get dayInspections => _dayInspections;
+
+  List<InspectionWeekModel> _weekInspections = []; // TODO: remove?
+  List<InspectionWeekModel> get weekInspections => _weekInspections;
+
+  List<InspectionMonthModel> _monthInspections = []; // TODO: remove?
+  List<InspectionMonthModel> get monthInspections => _monthInspections;
+
   DatabaseState _databaseState = DatabaseState.noData;
   DatabaseState get databaseState => _databaseState;
 
   LocalDataSourceImpl localDataSourceImpl;
+
+  int? _inspectionId;
+  int? get inspectionId => _inspectionId;
 
   DatabaseProvider({required this.localDataSourceImpl}) {
     fetchInspections();
@@ -83,7 +102,17 @@ class DatabaseProvider extends ChangeNotifier {
     List<InspectionModel> result = await localDataSourceImpl.getAllInspection();
     _inspections = result;
 
+    //! DEBUG
+    _dayInspections = await localDataSourceImpl.getAllDayInspection();
+    _weekInspections = await localDataSourceImpl.getAllWeekInspection();
+    _monthInspections = await localDataSourceImpl.getAllMonthInspection();
+
     _databaseState = DatabaseState.hasData;
+    notifyListeners();
+  }
+
+  void changeInspectionId(int? inspectionId) {
+    _inspectionId = inspectionId;
     notifyListeners();
   }
 
@@ -94,8 +123,8 @@ class DatabaseProvider extends ChangeNotifier {
     required String tanggal,
     required String lokasi,
   }) async {
-    int generatedId =
-        await generateInspectionId(localDataSourceImpl, "inspection");
+    int generatedId = await generateInspectionId(
+        localDataSourceImpl, InspectionTypes.inspection);
 
     InspectionModel inspectionModel = InspectionModel(
       id: generatedId,
@@ -111,44 +140,250 @@ class DatabaseProvider extends ChangeNotifier {
 
     final result = await localDataSourceImpl.insertInspection(inspectionModel);
 
+    changeInspectionId(generatedId);
+
     fetchInspections();
     return result;
   }
 
-  Future<bool> insertInspectionDay(
-      InspectionDayModel inspectionDayModel) async {
-    final inspection = await localDataSourceImpl
-        .getInspectionById(inspectionDayModel.inspectionId);
+  Future<bool> insertInspectionDay({
+    required int inspectionId,
 
-    if (inspection != null) {
-      final inspectionDay = json.decode(inspection.inspeksiHarian);
-      final updatedInspection =
-          inspection.copyWith(inspeksiHarian: inspectionDay);
+    // LUAR KENDARAAN
+    required int kacaDepanWiper,
+    required int bodiKacaJendelaKacaBelakang,
+    required int ban,
+    required int lampu,
+    required int pengamananBarangMuatan,
 
-      final updatingResult = await localDataSourceImpl.updateInspection(
-        InspectionModel.fromEquatable(updatedInspection),
-      );
+    // BAGIAN MESIN
+    required int oliMesin,
+    required int airRadiator,
+    required int airWiper,
 
-      if (updatingResult) {
-        final result =
-            await localDataSourceImpl.insertDayInspection(inspectionDayModel);
+    // DALAM KABIN
+    required int sabukPengaman,
+    required int stirKlakson,
+    required int dimGPSdanRFID,
+    required int panelInstrumendanKontrol,
+    required int pedalGasRemKopling,
+    required int penempatanBarangLepasan,
 
-        fetchInspections();
-        return result;
-      } else {
-        throw "Failed to update inspection";
-      }
-    } else {
+    // Dokumen
+    required int lisensiDanIzinMengemudi,
+    required int suratKendaraan,
+    required int jmpfmc,
+  }) async {
+    final inspection =
+        await localDataSourceImpl.getInspectionById(inspectionId);
+
+    if (inspection == null) {
+      throw "Failed to update inspection";
+    }
+
+    final int id =
+        await generateInspectionId(localDataSourceImpl, InspectionTypes.day);
+
+    final List<dynamic> inspectionDay = json.decode(inspection.inspeksiHarian);
+    inspectionDay.add(id);
+
+    final updatedInspection = inspection.copyWith(
+      inspeksiHarian: jsonEncode(inspectionDay),
+    );
+
+    final updatingResult = await localDataSourceImpl.updateInspection(
+      InspectionModel.fromEquatable(updatedInspection),
+    );
+
+    if (!updatingResult) {
       throw "Inspection not found";
     }
+
+    InspectionDayModel inspectionDayModel = InspectionDayModel(
+      id: id,
+      inspectionId: inspectionId,
+      kacaDepanWiper: kacaDepanWiper,
+      kacaDepanWiperFile: null,
+      bodiKacaJendelaKacaBelakang: bodiKacaJendelaKacaBelakang,
+      bodiKacaJendelaKacaBelakangFile: null,
+      ban: ban,
+      banFile: null,
+      lampu: lampu,
+      lampuFile: null,
+      pengamananBarangMuatan: pengamananBarangMuatan,
+      pengamananBarangMuatanFile: null,
+      oliMesin: oliMesin,
+      oliMesinFile: null,
+      airRadiator: airRadiator,
+      airRadiatorFile: null,
+      airWiper: airWiper,
+      airWiperFile: null,
+      sabukPengaman: sabukPengaman,
+      sabukPengamanFile: null,
+      stirKlakson: stirKlakson,
+      stirKlaksonFile: null,
+      dimGPSdanRFID: dimGPSdanRFID,
+      dimGPSdanRFIDFile: null,
+      panelInstrumendanKontrol: panelInstrumendanKontrol,
+      panelInstrumendanKontrolFile: null,
+      pedalGasRemKopling: pedalGasRemKopling,
+      pedalGasRemKoplingFile: null,
+      penempatanBarangLepasan: penempatanBarangLepasan,
+      penempatanBarangLepasanFile: null,
+      lisensiDanIzinMengemudi: lisensiDanIzinMengemudi,
+      lisensiDanIzinMengemudiFile: null,
+      suratKendaraan: suratKendaraan,
+      suratKendaraanFile: null,
+      jmpfmc: jmpfmc,
+      jmpfmcFile: null,
+    );
+
+    final result =
+        await localDataSourceImpl.insertDayInspection(inspectionDayModel);
+
+    fetchInspections();
+    return result;
   }
 
-  void insertInspectionWeek() {
-    // TODO:
+  Future<bool> insertInspectionWeek({
+    required int inspectionId,
+
+    // BAGIAN MESIN
+    required int minyakRem,
+    required int minyakPowerSteering,
+    required int vBelt,
+    required int bateraiAki,
+
+    // DALAM KABIN & LUAR KENDARAAN
+    required int remParkir,
+    required int sandaranKepalaJok,
+    required int spion,
+    required int bagianBawahMesindanTransmisi,
+    required int banCadanganDongrakKunci,
+    required int alatPemadamApiRingan,
+    required int itemP3K,
+    required int segitigaReflektif,
+  }) async {
+    final inspection =
+        await localDataSourceImpl.getInspectionById(inspectionId);
+
+    if (inspection == null) {
+      throw "Failed to update inspection";
+    }
+
+    final int id =
+        await generateInspectionId(localDataSourceImpl, InspectionTypes.week);
+
+    final List<dynamic> inspectionWeek =
+        json.decode(inspection.inspeksiMingguan);
+    inspectionWeek.add(id);
+
+    final updatedInspection = inspection.copyWith(
+      inspeksiMingguan: jsonEncode(inspectionWeek),
+    );
+
+    final updatingResult = await localDataSourceImpl.updateInspection(
+      InspectionModel.fromEquatable(updatedInspection),
+    );
+
+    if (!updatingResult) {
+      throw "Inspection not found";
+    }
+
+    InspectionWeekModel inspectionWeekModel = InspectionWeekModel(
+      id: id,
+      inspectionId: inspectionId,
+      minyakRem: minyakRem,
+      minyakRemFile: null,
+      minyakPowerSteering: minyakPowerSteering,
+      minyakPowerSteeringFile: null,
+      vBelt: vBelt,
+      vBeltFile: null,
+      bateraiAki: bateraiAki,
+      bateraiAkiFile: null,
+      remParkir: remParkir,
+      remParkirFile: null,
+      sandaranKepalaJok: sandaranKepalaJok,
+      sandaranKepalaJokFile: null,
+      spion: spion,
+      spionFile: null,
+      bagianBawahMesindanTransmisi: bagianBawahMesindanTransmisi,
+      bagianBawahMesindanTransmisiFile: null,
+      banCadanganDongrakKunci: banCadanganDongrakKunci,
+      banCadanganDongrakKunciFile: null,
+      alatPemadamApiRingan: alatPemadamApiRingan,
+      alatPemadamApiRinganFile: null,
+      itemP3K: itemP3K,
+      itemP3KFile: null,
+      segitigaReflektif: segitigaReflektif,
+      segitigaReflektifFile: null,
+    );
+
+    final result =
+        await localDataSourceImpl.insertWeekInspection(inspectionWeekModel);
+
+    fetchInspections();
+    return result;
   }
 
-  void insertInspectionMonth() {
-    // TODO:
+  Future<bool> insertInspectionMonth({
+    required int inspectionId,
+
+    // UJI FUNGSI
+    required int kinerjaRem,
+    required int kinerjaMesin,
+    required int transmisi4WD,
+
+    // CEK VISUAL
+    required int sekering,
+    required int bagianBawahKendaraan,
+  }) async {
+    final inspection =
+        await localDataSourceImpl.getInspectionById(inspectionId);
+
+    if (inspection == null) {
+      throw "Failed to update inspection";
+    }
+
+    final int id =
+        await generateInspectionId(localDataSourceImpl, InspectionTypes.month);
+
+    final List<dynamic> inspectionMonth =
+        json.decode(inspection.inspeksiBulanan);
+    inspectionMonth.add(id);
+
+    final updatedInspection = inspection.copyWith(
+      inspeksiBulanan: jsonEncode(inspectionMonth),
+    );
+
+    final updatingResult = await localDataSourceImpl.updateInspection(
+      InspectionModel.fromEquatable(updatedInspection),
+    );
+
+    if (!updatingResult) {
+      throw "Inspection not found";
+    }
+
+    InspectionMonthModel inspectionMonthModel = InspectionMonthModel(
+      id: id,
+      inspectionId: inspectionId,
+      kinerjaRem: kinerjaRem,
+      kinerjaRemFile: null,
+      kinerjaMesin: kinerjaMesin,
+      kinerjaMesinFile: null,
+      transmisi4WD: transmisi4WD,
+      transmisi4WDFile: null,
+      sekering: sekering,
+      sekeringFile: null,
+      bagianBawahKendaraan: bagianBawahKendaraan,
+      bagianBawahKendaraanFile: null,
+    );
+
+    final result =
+        await localDataSourceImpl.insertMonthInspection(inspectionMonthModel);
+
+    fetchInspections();
+    return result;
   }
 
   void debug() async {
