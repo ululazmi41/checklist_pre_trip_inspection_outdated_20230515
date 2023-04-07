@@ -93,7 +93,7 @@ class DatabaseProvider extends ChangeNotifier {
   void resetDatabase() async {
     await localDataSourceImpl.resetDatabase();
     dev.log("Database is resetted");
-  }
+  } // TODO: remove on production
 
   void fetchInspections() async {
     _databaseState = DatabaseState.loading;
@@ -133,9 +133,9 @@ class DatabaseProvider extends ChangeNotifier {
       perusahaan: perusahaan,
       tanggal: tanggal,
       lokasi: lokasi,
-      inspeksiHarian: jsonEncode([]),
-      inspeksiMingguan: jsonEncode([]),
-      inspeksiBulanan: jsonEncode([]),
+      inspeksiHarian: "[]",
+      inspeksiMingguan: "[]",
+      inspeksiBulanan: "[]",
     );
 
     final result = await localDataSourceImpl.insertInspection(inspectionModel);
@@ -411,17 +411,9 @@ class DatabaseProvider extends ChangeNotifier {
 
     dev.log("id: $generatedId");
 
-    String inspeksiHarian = jsonEncode(
-      [],
-    );
-
-    String inspeksiMingguan = jsonEncode(
-      [],
-    );
-
-    String inspeksiBulanan = jsonEncode(
-      [],
-    );
+    String inspeksiHarian = "[]";
+    String inspeksiMingguan = "[]";
+    String inspeksiBulanan = "[]";
 
     InspectionModel inspectionModel = InspectionModel(
       id: generatedId,

@@ -47,6 +47,7 @@ MaterialPageRoute routes(RouteSettings settings) {
         builder: (_) => const Placeholder(),
       );
   }
+
   // TODO: ignore? else make a default 404 page
   return MaterialPageRoute(
     builder: (_) => const Scaffold(

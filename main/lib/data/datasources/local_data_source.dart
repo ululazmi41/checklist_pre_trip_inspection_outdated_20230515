@@ -38,7 +38,7 @@ class LocalDataSourceImpl extends LocalDataSource {
     try {
       await databaseHelper.resetDatabase();
     } catch (e) {
-      rethrow;
+      rethrow; // TODO: Better and more proper error handling
     }
   }
 
@@ -52,8 +52,8 @@ class LocalDataSourceImpl extends LocalDataSource {
         return null;
       }
     } catch (e) {
-      throw DatabaseException("Failed to get the data");
-    }
+      throw DatabaseException("Failed to get the inspection data");
+    } // TODO: unnecessary try catch, throw instead of returning null
   }
 
   @override
@@ -66,7 +66,7 @@ class LocalDataSourceImpl extends LocalDataSource {
         return [];
       }
     } catch (e) {
-      throw DatabaseException("Failed to get all the data");
+      throw DatabaseException("Failed to get all the inspection data");
     }
   }
 
@@ -80,7 +80,7 @@ class LocalDataSourceImpl extends LocalDataSource {
         return [];
       }
     } catch (e) {
-      throw DatabaseException("Failed to get all the data on day");
+      throw DatabaseException("Failed to get all the day inspection data");
     }
   } // TODO: rmeove?
 
@@ -96,7 +96,7 @@ class LocalDataSourceImpl extends LocalDataSource {
         return [];
       }
     } catch (e) {
-      throw DatabaseException("Failed to get all the data on week");
+      throw DatabaseException("Failed to get all the week inspection data");
     }
   } // TODO: rmeove?
 
@@ -112,7 +112,7 @@ class LocalDataSourceImpl extends LocalDataSource {
         return [];
       }
     } catch (e) {
-      throw DatabaseException("Failed to get all the data on month");
+      throw DatabaseException("Failed to get all the month inspection data");
     }
   } // TODO: rmeove?
 
@@ -120,10 +120,11 @@ class LocalDataSourceImpl extends LocalDataSource {
   Future<bool> insertInspection(InspectionModel inspectionModel) async {
     try {
       final result = await databaseHelper.insert(inspectionModel);
-      log("insert inspection: $result");
-      return true;
+      log("insert inspection: $result"); // TODO: Remove log
+      return true; // TODO 1: Proper return value
     } catch (e) {
-      return false;
+      return false; // TODO 1: Proper return value
+      // TODO: Proper error handling
     }
   } // TODO:
 
@@ -148,7 +149,7 @@ class LocalDataSourceImpl extends LocalDataSource {
     } catch (e) {
       return false;
     }
-  }
+  } // TODO:
 
   @override
   Future<bool> insertMonthInspection(
@@ -159,7 +160,7 @@ class LocalDataSourceImpl extends LocalDataSource {
     } catch (e) {
       return false;
     }
-  }
+  } // TODO:
 
   @override
   Future<bool> removeInspection(InspectionModel inspectionModel) async {
@@ -169,7 +170,7 @@ class LocalDataSourceImpl extends LocalDataSource {
     } catch (e) {
       return false;
     }
-  }
+  } // TODO:
 
   @override
   Future<bool> updateInspection(InspectionModel inspectionModel) async {
@@ -180,7 +181,11 @@ class LocalDataSourceImpl extends LocalDataSource {
     } catch (e) {
       return false;
     }
-  }
+  } // TODO:
+
+  /*
+  * Checking Id
+  */
 
   @override
   Future<bool> checkInspectionId(int id) async {

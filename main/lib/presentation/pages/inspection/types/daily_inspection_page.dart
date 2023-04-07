@@ -40,8 +40,7 @@ class InspectionDayState extends State<InspectionDay> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO 1: Warning when inspectionId is not given
-    // TODO 2: onPop
+    // TODO: Warning when inspectionId is not given on onPop
     return Scaffold(
       appBar: AppBar(
         title: const Text("Inspeksi Harian"),
@@ -56,7 +55,9 @@ class InspectionDayState extends State<InspectionDay> {
               right: 24.0,
               bottom: 36.0,
             ),
-            child: SingleChildScrollView(child: content()),
+            child: SingleChildScrollView(
+              child: content(),
+            ),
           ),
         ),
       ),
@@ -69,13 +70,6 @@ class InspectionDayState extends State<InspectionDay> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        // Text(
-        //   'You have pushed the button this many times with $hello and $condition:',
-        // ),
-        // Text(
-        //   '$_counter',
-        //   style: Theme.of(context).textTheme.headline4,
-        // ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: const <Widget>[
@@ -89,232 +83,28 @@ class InspectionDayState extends State<InspectionDay> {
         _title("LUAR KENDARAAN"),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            children: [
-              CheckTile(
-                title: "KACA DEPAN + WIPER",
-                state: kacaDepanWiper,
-                onChange: (int state) {
-                  setState(() {
-                    kacaDepanWiper = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "Bodi + Kaca Jendela + Kaca Belakang",
-                state: bodiKacaJendelaKacaBelakang,
-                onChange: (int state) {
-                  setState(() {
-                    bodiKacaJendelaKacaBelakang = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "BAN DEPAN + BELAKANG",
-                state: ban,
-                onChange: (int state) {
-                  setState(() {
-                    ban = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title:
-                    "LAMPU-LAMPU (LAMPU UTAMA, LAMPU REM, LAMPU SEIN, LAMPU HAZARD, LAMPU MUNDUR)",
-                state: lampu,
-                onChange: (int state) {
-                  setState(() {
-                    lampu = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "PENGAMANAN BARANG MUATAN",
-                state: pengamananBarangMuatan,
-                onChange: (int state) {
-                  setState(() {
-                    pengamananBarangMuatan = state;
-                  });
-                },
-              ),
-            ],
-          ),
+          child: _luarKendaraan(),
         ),
         _title("BAGIAN MESIN"),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            children: [
-              CheckTile(
-                title: "OLI MESIN",
-                state: oliMesin,
-                onChange: (int state) {
-                  setState(() {
-                    oliMesin = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "AIR RADIATOR",
-                state: airRadiator,
-                onChange: (int state) {
-                  setState(() {
-                    airRadiator = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "AIR WIPER",
-                state: airWiper,
-                onChange: (int state) {
-                  setState(() {
-                    airWiper = state;
-                  });
-                },
-              ),
-            ],
-          ),
+          child: _bagianMesin(),
         ),
         _title("DALAM KABIN"),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            children: [
-              CheckTile(
-                title: "SABUK PENGAMAN",
-                state: sabukPengaman,
-                onChange: (int state) {
-                  setState(() {
-                    sabukPengaman = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "STIR & KLAKSON",
-                state: stirKlakson,
-                onChange: (int state) {
-                  setState(() {
-                    stirKlakson = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "DIM GPS dan RFID",
-                state: dimGPSdanRFID,
-                onChange: (int state) {
-                  setState(() {
-                    dimGPSdanRFID = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "PANEL INSTRUMEN dan KONTROL",
-                state: panelInstrumendanKontrol,
-                onChange: (int state) {
-                  setState(() {
-                    panelInstrumendanKontrol = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "PEDAL GAS, REM, KOPLING",
-                state: pedalGasRemKopling,
-                onChange: (int state) {
-                  setState(() {
-                    pedalGasRemKopling = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title:
-                    "PENEMPATAN BARANG LEPASAN (LOOSE ITEM) + kebersihan kabin",
-                state: penempatanBarangLepasan,
-                onChange: (int state) {
-                  setState(() {
-                    penempatanBarangLepasan = state;
-                  });
-                },
-              ),
-            ],
-          ),
+          child: _dalamKabin(),
         ),
         _title("DOKUMEN"),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            children: [
-              CheckTile(
-                title: "LISENSI & IZIN MENGEMUDI (SIM KP)",
-                state: lisensiDanIzinMengemudi,
-                onChange: (int state) {
-                  setState(() {
-                    lisensiDanIzinMengemudi = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title:
-                    "SURAT KENDARAAN (STNK + PLAT NOMOR, PASS KENDARAAN, KIR - khusus mobil pickup / plat kuning)",
-                state: suratKendaraan,
-                onChange: (int state) {
-                  setState(() {
-                    suratKendaraan = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title:
-                    "Journey Management Plan (JMP); Fatigue Management Checklist (FMC)",
-                state: jmpfmc,
-                onChange: (int state) {
-                  setState(() {
-                    jmpfmc = state;
-                  });
-                },
-              ),
-            ],
-          ),
+          child: _dokumen(),
         ),
         Row(
+          // TODO: use proper widget
           mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Consumer<DatabaseProvider>(
-              builder: (context, value, child) {
-                return ElevatedButton(
-                  onPressed: () {
-                    if (value.inspectionId == null) {
-                      throw "no inspectionId is given";
-                    }
-
-                    context.read<DatabaseProvider>().insertInspectionDay(
-                          inspectionId: value.inspectionId!,
-                          kacaDepanWiper: kacaDepanWiper,
-                          bodiKacaJendelaKacaBelakang:
-                              bodiKacaJendelaKacaBelakang,
-                          ban: ban,
-                          lampu: lampu,
-                          pengamananBarangMuatan: pengamananBarangMuatan,
-                          oliMesin: oliMesin,
-                          airRadiator: airRadiator,
-                          airWiper: airWiper,
-                          sabukPengaman: sabukPengaman,
-                          stirKlakson: stirKlakson,
-                          dimGPSdanRFID: dimGPSdanRFID,
-                          panelInstrumendanKontrol: panelInstrumendanKontrol,
-                          pedalGasRemKopling: pedalGasRemKopling,
-                          penempatanBarangLepasan: penempatanBarangLepasan,
-                          lisensiDanIzinMengemudi: lisensiDanIzinMengemudi,
-                          suratKendaraan: suratKendaraan,
-                          jmpfmc: jmpfmc,
-                        );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orangeAccent,
-                  ),
-                  child: const Text("Simpan"),
-                );
-              },
-            ),
+          children: <Widget>[
+            _submitButton(),
           ],
         ),
       ],
@@ -366,6 +156,229 @@ class InspectionDayState extends State<InspectionDay> {
           color: Colors.grey,
         ),
       ],
+    );
+  }
+
+  Widget _luarKendaraan() {
+    return Column(
+      children: <Widget>[
+        CheckTile(
+          title: "KACA DEPAN + WIPER",
+          state: kacaDepanWiper,
+          onChange: (int state) {
+            setState(() {
+              kacaDepanWiper = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "Bodi + Kaca Jendela + Kaca Belakang",
+          state: bodiKacaJendelaKacaBelakang,
+          onChange: (int state) {
+            setState(() {
+              bodiKacaJendelaKacaBelakang = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "BAN DEPAN + BELAKANG",
+          state: ban,
+          onChange: (int state) {
+            setState(() {
+              ban = state;
+            });
+          },
+        ),
+        CheckTile(
+          title:
+              "LAMPU-LAMPU (LAMPU UTAMA, LAMPU REM, LAMPU SEIN, LAMPU HAZARD, LAMPU MUNDUR)",
+          state: lampu,
+          onChange: (int state) {
+            setState(() {
+              lampu = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "PENGAMANAN BARANG MUATAN",
+          state: pengamananBarangMuatan,
+          onChange: (int state) {
+            setState(() {
+              pengamananBarangMuatan = state;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _bagianMesin() {
+    return Column(
+      children: <Widget>[
+        CheckTile(
+          title: "OLI MESIN",
+          state: oliMesin,
+          onChange: (int state) {
+            setState(() {
+              oliMesin = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "AIR RADIATOR",
+          state: airRadiator,
+          onChange: (int state) {
+            setState(() {
+              airRadiator = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "AIR WIPER",
+          state: airWiper,
+          onChange: (int state) {
+            setState(() {
+              airWiper = state;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _dalamKabin() {
+    return Column(
+      children: <Widget>[
+        CheckTile(
+          title: "SABUK PENGAMAN",
+          state: sabukPengaman,
+          onChange: (int state) {
+            setState(() {
+              sabukPengaman = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "STIR & KLAKSON",
+          state: stirKlakson,
+          onChange: (int state) {
+            setState(() {
+              stirKlakson = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "DIM GPS dan RFID",
+          state: dimGPSdanRFID,
+          onChange: (int state) {
+            setState(() {
+              dimGPSdanRFID = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "PANEL INSTRUMEN dan KONTROL",
+          state: panelInstrumendanKontrol,
+          onChange: (int state) {
+            setState(() {
+              panelInstrumendanKontrol = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "PEDAL GAS, REM, KOPLING",
+          state: pedalGasRemKopling,
+          onChange: (int state) {
+            setState(() {
+              pedalGasRemKopling = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "PENEMPATAN BARANG LEPASAN (LOOSE ITEM) + kebersihan kabin",
+          state: penempatanBarangLepasan,
+          onChange: (int state) {
+            setState(() {
+              penempatanBarangLepasan = state;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _dokumen() {
+    return Column(
+      children: [
+        CheckTile(
+          title: "LISENSI & IZIN MENGEMUDI (SIM KP)",
+          state: lisensiDanIzinMengemudi,
+          onChange: (int state) {
+            setState(() {
+              lisensiDanIzinMengemudi = state;
+            });
+          },
+        ),
+        CheckTile(
+          title:
+              "SURAT KENDARAAN (STNK + PLAT NOMOR, PASS KENDARAAN, KIR - khusus mobil pickup / plat kuning)",
+          state: suratKendaraan,
+          onChange: (int state) {
+            setState(() {
+              suratKendaraan = state;
+            });
+          },
+        ),
+        CheckTile(
+          title:
+              "Journey Management Plan (JMP); Fatigue Management Checklist (FMC)",
+          state: jmpfmc,
+          onChange: (int state) {
+            setState(() {
+              jmpfmc = state;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Consumer _submitButton() {
+    return Consumer<DatabaseProvider>(
+      builder: (context, value, child) {
+        return ElevatedButton(
+          onPressed: () {
+            if (value.inspectionId == null) {
+              throw "no inspectionId is given";
+            }
+
+            context.read<DatabaseProvider>().insertInspectionDay(
+                  inspectionId: value.inspectionId!,
+                  kacaDepanWiper: kacaDepanWiper,
+                  bodiKacaJendelaKacaBelakang: bodiKacaJendelaKacaBelakang,
+                  ban: ban,
+                  lampu: lampu,
+                  pengamananBarangMuatan: pengamananBarangMuatan,
+                  oliMesin: oliMesin,
+                  airRadiator: airRadiator,
+                  airWiper: airWiper,
+                  sabukPengaman: sabukPengaman,
+                  stirKlakson: stirKlakson,
+                  dimGPSdanRFID: dimGPSdanRFID,
+                  panelInstrumendanKontrol: panelInstrumendanKontrol,
+                  pedalGasRemKopling: pedalGasRemKopling,
+                  penempatanBarangLepasan: penempatanBarangLepasan,
+                  lisensiDanIzinMengemudi: lisensiDanIzinMengemudi,
+                  suratKendaraan: suratKendaraan,
+                  jmpfmc: jmpfmc,
+                );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orangeAccent,
+          ),
+          child: const Text("Simpan"),
+        );
+      },
     );
   }
 }

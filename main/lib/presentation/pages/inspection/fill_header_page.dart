@@ -1,9 +1,7 @@
 import 'package:core/core.dart';
-import 'package:main/data/models/inspection_model.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:main/presentation/provider/database_provider.dart';
-import 'package:sqflite_sqlcipher/sqflite.dart';
 
 class FillHeaderPage extends StatefulWidget {
   const FillHeaderPage({super.key, required this.type});
@@ -60,43 +58,47 @@ class IFillHeaderPageState extends State<FillHeaderPage> {
               "Lokasi",
               "ex: Area PHR..",
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () async {
-                    context.read<DatabaseProvider>().insertInspection(
-                          nomorPlat: nomorPlat.text,
-                          tipeKendaraan: tipeKendaraan.value.text,
-                          perusahaan: perusahaan.text,
-                          tanggal: tanggal.text,
-                          lokasi: lokasi.text,
-                        );
-
-                    if (widget.type == 'daily') {
-                      Navigator.of(context).pushNamed(
-                        itDailyInspectionRoute,
-                      );
-                    } else if (widget.type == 'weekly') {
-                      Navigator.of(context).pushNamed(
-                        itWeeklyInspectionRoute,
-                      );
-                    } else if (widget.type == 'monthly') {
-                      Navigator.of(context).pushNamed(
-                        itMonthlyInspectionRoute,
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orangeAccent,
-                  ),
-                  child: const Text("Mulai Inspeksi"),
-                ),
-              ],
-            ),
+            _submitButton(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _submitButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        ElevatedButton(
+          onPressed: () async {
+            context.read<DatabaseProvider>().insertInspection(
+                  nomorPlat: nomorPlat.text,
+                  tipeKendaraan: tipeKendaraan.value.text,
+                  perusahaan: perusahaan.text,
+                  tanggal: tanggal.text,
+                  lokasi: lokasi.text,
+                );
+
+            if (widget.type == 'daily') {
+              Navigator.of(context).pushNamed(
+                itDailyInspectionRoute,
+              );
+            } else if (widget.type == 'weekly') {
+              Navigator.of(context).pushNamed(
+                itWeeklyInspectionRoute,
+              );
+            } else if (widget.type == 'monthly') {
+              Navigator.of(context).pushNamed(
+                itMonthlyInspectionRoute,
+              );
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orangeAccent,
+          ),
+          child: const Text("Mulai Inspeksi"),
+        ),
+      ],
     );
   }
 

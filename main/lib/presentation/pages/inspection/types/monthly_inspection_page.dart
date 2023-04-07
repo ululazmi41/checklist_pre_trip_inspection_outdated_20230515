@@ -38,7 +38,9 @@ class InspectionMonthState extends State<InspectionMonth> {
           right: 24.0,
           bottom: 36.0,
         ),
-        child: SingleChildScrollView(child: content()),
+        child: SingleChildScrollView(
+          child: content(),
+        ),
       ),
     );
   }
@@ -61,92 +63,18 @@ class InspectionMonthState extends State<InspectionMonth> {
             "UJI FUNGSI (oleh pengemudi / bersama mekanik, uji dengan laju < 20kpj di lokasi aman)"),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            children: [
-              CheckTile(
-                title: "KINERJA REM",
-                state: kinerjaRem,
-                onChange: (int state) {
-                  setState(() {
-                    kinerjaRem = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "Kinerja Mesin",
-                state: kinerjaMesin,
-                onChange: (int state) {
-                  setState(() {
-                    kinerjaMesin = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title: "Transmisi 4WD (jika dilengkapi)",
-                state: transmisi4WD,
-                onChange: (int state) {
-                  setState(() {
-                    transmisi4WD = state;
-                  });
-                },
-              ),
-            ],
-          ),
+          child: _ujiFungsi(),
         ),
         _title("CEK VISUAL"),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
-          child: Column(
-            children: [
-              CheckTile(
-                title: "Sekering (fuse)",
-                state: sekering,
-                onChange: (int state) {
-                  setState(() {
-                    sekering = state;
-                  });
-                },
-              ),
-              CheckTile(
-                title:
-                    "Bagian bawah kendaraan, suspensi, poros, propeller, axie",
-                state: bagianBawahKendaraan,
-                onChange: (int state) {
-                  setState(() {
-                    bagianBawahKendaraan = state;
-                  });
-                },
-              ),
-            ],
-          ),
+          child: _cekVisual(),
         ),
         Row(
+          // TODO: use proper widget
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Consumer<DatabaseProvider>(
-              builder: (context, value, child) {
-                return ElevatedButton(
-                  onPressed: () {
-                    if (value.inspectionId == null) {
-                      throw "no inspectionId is given";
-                    }
-
-                    context.read<DatabaseProvider>().insertInspectionMonth(
-                          inspectionId: value.inspectionId!,
-                          kinerjaRem: kinerjaRem,
-                          kinerjaMesin: kinerjaMesin,
-                          transmisi4WD: transmisi4WD,
-                          sekering: sekering,
-                          bagianBawahKendaraan: bagianBawahKendaraan,
-                        );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orangeAccent,
-                  ),
-                  child: const Text("Simpan"),
-                );
-              },
-            ),
+            _submitButton(),
           ],
         ),
       ],
@@ -201,6 +129,92 @@ class InspectionMonthState extends State<InspectionMonth> {
           color: Colors.grey,
         ),
       ],
+    );
+  }
+
+  Widget _ujiFungsi() {
+    return Column(
+      children: [
+        CheckTile(
+          title: "KINERJA REM",
+          state: kinerjaRem,
+          onChange: (int state) {
+            setState(() {
+              kinerjaRem = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "Kinerja Mesin",
+          state: kinerjaMesin,
+          onChange: (int state) {
+            setState(() {
+              kinerjaMesin = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "Transmisi 4WD (jika dilengkapi)",
+          state: transmisi4WD,
+          onChange: (int state) {
+            setState(() {
+              transmisi4WD = state;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _cekVisual() {
+    return Column(
+      children: <Widget>[
+        CheckTile(
+          title: "Sekering (fuse)",
+          state: sekering,
+          onChange: (int state) {
+            setState(() {
+              sekering = state;
+            });
+          },
+        ),
+        CheckTile(
+          title: "Bagian bawah kendaraan, suspensi, poros, propeller, axie",
+          state: bagianBawahKendaraan,
+          onChange: (int state) {
+            setState(() {
+              bagianBawahKendaraan = state;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Consumer _submitButton() {
+    return Consumer<DatabaseProvider>(
+      builder: (context, value, child) {
+        return ElevatedButton(
+          onPressed: () {
+            if (value.inspectionId == null) {
+              throw "no inspectionId is given";
+            }
+
+            context.read<DatabaseProvider>().insertInspectionMonth(
+                  inspectionId: value.inspectionId!,
+                  kinerjaRem: kinerjaRem,
+                  kinerjaMesin: kinerjaMesin,
+                  transmisi4WD: transmisi4WD,
+                  sekering: sekering,
+                  bagianBawahKendaraan: bagianBawahKendaraan,
+                );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.orangeAccent,
+          ),
+          child: const Text("Simpan"),
+        );
+      },
     );
   }
 }
