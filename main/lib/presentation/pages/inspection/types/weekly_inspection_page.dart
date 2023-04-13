@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:main/presentation/components/check_tile.dart';
 import 'package:main/presentation/provider/database_provider.dart';
@@ -39,17 +40,15 @@ class InspectionWeekState extends State<InspectionWeek> {
       ),
       body: Container(
         color: Colors.white,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 24.0,
-              top: 12.0,
-              right: 24.0,
-              bottom: 36.0,
-            ),
-            child: SingleChildScrollView(
-              child: content(),
-            ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 24.0,
+            top: 12.0,
+            right: 24.0,
+            bottom: 36.0,
+          ),
+          child: SingleChildScrollView(
+            child: content(),
           ),
         ),
       ),
@@ -58,7 +57,6 @@ class InspectionWeekState extends State<InspectionWeek> {
 
   Widget content() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -288,6 +286,11 @@ class InspectionWeekState extends State<InspectionWeek> {
                   itemP3K: itemP3K,
                   segitigaReflektif: segitigaReflektif,
                 );
+
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(iMyInspectionRoute);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.orangeAccent,

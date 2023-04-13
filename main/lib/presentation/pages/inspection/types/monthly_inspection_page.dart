@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:main/presentation/components/check_tile.dart';
 import 'package:main/presentation/provider/database_provider.dart';
@@ -208,6 +209,11 @@ class InspectionMonthState extends State<InspectionMonth> {
                   sekering: sekering,
                   bagianBawahKendaraan: bagianBawahKendaraan,
                 );
+
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(iMyInspectionRoute);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.orangeAccent,

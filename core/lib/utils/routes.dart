@@ -1,5 +1,7 @@
 const dashboardRoute = 'dashboard';
 const splashScreenRoute = 'splash-screen';
+const frontRoute = 'front';
+const loginRoute = 'login';
 
 // Inspection
 const iChooseTypeRoute = 'inspection/choose-type';

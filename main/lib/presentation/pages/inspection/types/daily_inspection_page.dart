@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:core/core.dart';
 import 'package:main/presentation/provider/database_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,8 @@ class InspectionDayState extends State<InspectionDay> {
   int suratKendaraan = 0;
   int jmpfmc = 0;
 
+  bool infoVisibility = false;
+
   @override
   Widget build(BuildContext context) {
     // TODO: Warning when inspectionId is not given on onPop
@@ -47,17 +50,15 @@ class InspectionDayState extends State<InspectionDay> {
       ),
       body: Container(
         color: Colors.white,
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(
-              left: 24.0,
-              top: 12.0,
-              right: 24.0,
-              bottom: 36.0,
-            ),
-            child: SingleChildScrollView(
-              child: content(),
-            ),
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 24.0,
+            top: 12.0,
+            right: 24.0,
+            bottom: 36.0,
+          ),
+          child: SingleChildScrollView(
+            child: content(),
           ),
         ),
       ),
@@ -70,16 +71,65 @@ class InspectionDayState extends State<InspectionDay> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: const <Widget>[
-            Text("Tanggal: "),
-            Text(
-              "29 Maret 2023",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
+        Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 14.0,
+            vertical: 8.0,
+          ),
+          margin: const EdgeInsets.only(bottom: 8.0),
+          decoration: BoxDecoration(
+            color: Colors.grey,
+            border: Border.all(),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const <Widget>[
+              Text(
+                "29 Maret 2023",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
+        InkWell(
+          onTap: () {
+            setState(() {
+              infoVisibility = !infoVisibility;
+            });
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                const Padding(
+                  padding: EdgeInsets.only(left: 8.0),
+                  child: Text("Petunjuk"),
+                ),
+                Icon(
+                  infoVisibility ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                ),
+              ],
+            ),
+          ),
+        ),
+        infoVisibility ? const SizedBox(height: 8.0) : Container(),
+        infoVisibility
+            ? const Text(
+                "1. Kelilingi kendaraan 360° untuk kondisi setiap item di luar, dalam, dan bagian mesin. Matikan mesin saat menginspeksi bagian mesin.",
+                style: TextStyle(fontSize: 11.0),
+              )
+            : Container(),
+        infoVisibility
+            ? const Text(
+                "2. Isi kolom ☐ dengan \"X\" jika kondisi setiap item di luar, dalam, dan bagian mesin. Matikan mesin saat menginspeksi bagian mesin..",
+                style: TextStyle(fontSize: 11.0),
+              )
+            : Container(),
         _title("LUAR KENDARAAN"),
         Padding(
           padding: const EdgeInsets.only(left: 8.0),
@@ -458,6 +508,11 @@ class InspectionDayState extends State<InspectionDay> {
                   suratKendaraan: suratKendaraan,
                   jmpfmc: jmpfmc,
                 );
+
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(iMyInspectionRoute);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.orangeAccent,

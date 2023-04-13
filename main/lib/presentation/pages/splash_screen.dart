@@ -18,7 +18,7 @@ class _SplashScreenPage extends State<SplashScreenPage> {
       const Duration(seconds: 3),
       () => Navigator.pushReplacementNamed(
         context,
-        dashboardRoute,
+        frontRoute,
       ),
     );
   }

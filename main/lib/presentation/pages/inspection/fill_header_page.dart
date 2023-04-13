@@ -50,8 +50,8 @@ class IFillHeaderPageState extends State<FillHeaderPage> {
             ),
             _inputField(
               tanggal,
-              "Minggu / Bulan / Tahun",
-              "ex: 03 / 04 / 20..",
+              "Minggu",
+              "ex: IV..",
             ),
             _inputField(
               lokasi,

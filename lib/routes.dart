@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:main/presentation/pages/dashboard_page.dart';
 import 'package:main/presentation/pages/inspection/choose_type_page.dart';
 import 'package:main/presentation/pages/inspection/fill_header_page.dart';
+import 'package:main/presentation/pages/inspection/my_inspection_page.dart';
 import 'package:main/presentation/pages/inspection/types/daily_inspection_page.dart';
 import 'package:main/presentation/pages/inspection/types/monthly_inspection_page.dart';
 import 'package:main/presentation/pages/inspection/types/weekly_inspection_page.dart';
 import 'package:main/presentation/pages/splash_screen.dart';
+import 'package:main/presentation/pages/login_page.dart';
+import 'package:main/presentation/pages/front_page.dart';
 
 const placeholder = '';
 
@@ -19,6 +22,14 @@ MaterialPageRoute routes(RouteSettings settings) {
     case dashboardRoute:
       return MaterialPageRoute(
         builder: (_) => const DashboardPage(),
+      );
+    case frontRoute:
+      return MaterialPageRoute(
+        builder: (_) => const FrontPage(),
+      );
+    case loginRoute:
+      return MaterialPageRoute(
+        builder: (_) => const LoginPage(),
       );
 
     // Inspection
@@ -45,6 +56,11 @@ MaterialPageRoute routes(RouteSettings settings) {
     case itMonthlyInspectionRoute:
       return MaterialPageRoute(
         builder: (_) => const InspectionMonth(),
+      );
+
+    case iMyInspectionRoute:
+      return MaterialPageRoute(
+        builder: (_) => const MyInspectionPage(),
       );
 
     case placeholder:
