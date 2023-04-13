@@ -1,4 +1,5 @@
-const homeRoute = 'home';
+const dashboardRoute = 'dashboard';
+const splashScreenRoute = 'splash-screen';
 
 // Inspection
 const iChooseTypeRoute = 'inspection/choose-type';

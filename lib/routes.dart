@@ -6,12 +6,17 @@ import 'package:main/presentation/pages/inspection/fill_header_page.dart';
 import 'package:main/presentation/pages/inspection/types/daily_inspection_page.dart';
 import 'package:main/presentation/pages/inspection/types/monthly_inspection_page.dart';
 import 'package:main/presentation/pages/inspection/types/weekly_inspection_page.dart';
+import 'package:main/presentation/pages/splash_screen.dart';
 
 const placeholder = '';
 
 MaterialPageRoute routes(RouteSettings settings) {
   switch (settings.name) {
-    case homeRoute:
+    case splashScreenRoute:
+      return MaterialPageRoute(
+        builder: (_) => const SplashScreenPage(),
+      );
+    case dashboardRoute:
       return MaterialPageRoute(
         builder: (_) => const DashboardPage(),
       );

@@ -73,7 +73,7 @@ class InspectionDayState extends State<InspectionDay> {
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: const <Widget>[
-            Text("Tanggal"),
+            Text("Tanggal: "),
             Text(
               "29 Maret 2023",
               style: TextStyle(fontWeight: FontWeight.bold),
@@ -100,6 +100,92 @@ class InspectionDayState extends State<InspectionDay> {
           padding: const EdgeInsets.only(left: 8.0),
           child: _dokumen(),
         ),
+        const SizedBox(height: 12.0),
+        Container(
+          height: 2.0,
+          color: Colors.grey,
+        ),
+        const SizedBox(height: 20.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const <Widget>[
+            Text(
+              "KM Awal",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: const TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'km awal...',
+                  contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(right: 5.0),
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.blueGrey,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const <Widget>[
+            Text(
+              "KM Akhir",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 4.0),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: const TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'km akhir...',
+                  contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  labelStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(right: 5.0),
+              child: Icon(
+                Icons.camera_alt,
+                color: Colors.blueGrey,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20.0),
         Row(
           // TODO: use proper widget
           mainAxisAlignment: MainAxisAlignment.end,

@@ -2,7 +2,7 @@ import 'package:main/data/models/inspection_day_model.dart';
 import 'package:main/data/models/inspection_model.dart';
 import 'package:main/data/models/inspection_month_model.dart';
 import 'package:main/data/models/inspection_week_model.dart';
-import 'package:sqflite_sqlcipher/sqflite.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   static DatabaseHelper? _databaseHelper;
@@ -33,7 +33,8 @@ class DatabaseHelper {
       databasePath,
       version: 1,
       onCreate: _onCreate,
-      password: "password",
+      // password: "password",
+      //? sqflite_cipher is causing force close on installation, but not debugging
     );
     return db;
   }
