@@ -8,6 +8,10 @@ const iChooseTypeRoute = 'inspection/choose-type';
 const iFillHeaderRoute = 'inspection/fill-header';
 const iMyInspectionRoute = 'inspection/my-inspection';
 
+const iMyInspectionDailyRoute = 'inspection/my-inspection/daily';
+const iMyInspectionWeeklyRoute = 'inspection/my-inspection/weekly';
+const iMyInspectionMonthlyRoute = 'inspection/my-inspection/monthly';
+
 // Inspection Types
 const itDailyInspectionRoute = 'inspection/types/daily';
 const itWeeklyInspectionRoute = 'inspection/types/weekly';

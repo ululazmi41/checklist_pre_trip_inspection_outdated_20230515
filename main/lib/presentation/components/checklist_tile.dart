@@ -9,7 +9,7 @@ class ChecklistTile extends StatelessWidget {
   }) : super(key: key);
 
   final Icon icon;
-  final Text title;
+  final String title;
   final Widget trailing;
 
   @override
@@ -18,10 +18,6 @@ class ChecklistTile extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            margin: const EdgeInsets.symmetric(
-              vertical: 8.0,
-              horizontal: 12.0,
-            ),
             padding: const EdgeInsets.symmetric(
               vertical: 8.0,
               horizontal: 12.0,
@@ -39,7 +35,14 @@ class ChecklistTile extends StatelessWidget {
                   children: <Widget>[
                     icon,
                     const SizedBox(width: 20.0),
-                    title,
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        color: Colors.black54,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ],
                 ),
                 trailing,

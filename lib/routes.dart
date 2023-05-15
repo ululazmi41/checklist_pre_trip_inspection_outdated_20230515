@@ -4,6 +4,9 @@ import 'package:main/presentation/pages/dashboard_page.dart';
 import 'package:main/presentation/pages/inspection/choose_type_page.dart';
 import 'package:main/presentation/pages/inspection/fill_header_page.dart';
 import 'package:main/presentation/pages/inspection/my_inspection_page.dart';
+import 'package:main/presentation/pages/inspection/inspections/daily_my_inspections_page.dart';
+import 'package:main/presentation/pages/inspection/inspections/weekly_my_inspections_page.dart';
+import 'package:main/presentation/pages/inspection/inspections/monthly_my_inspections_page.dart';
 import 'package:main/presentation/pages/inspection/types/daily_inspection_page.dart';
 import 'package:main/presentation/pages/inspection/types/monthly_inspection_page.dart';
 import 'package:main/presentation/pages/inspection/types/weekly_inspection_page.dart';
@@ -61,6 +64,18 @@ MaterialPageRoute routes(RouteSettings settings) {
     case iMyInspectionRoute:
       return MaterialPageRoute(
         builder: (_) => const MyInspectionPage(),
+      );
+    case iMyInspectionDailyRoute:
+      return MaterialPageRoute(
+        builder: (_) => const DailyMyInspectionsPage(),
+      );
+    case iMyInspectionWeeklyRoute:
+      return MaterialPageRoute(
+        builder: (_) => const WeeklyMyInspectionsPage(),
+      );
+    case iMyInspectionMonthlyRoute:
+      return MaterialPageRoute(
+        builder: (_) => const MonthlyMyInspectionsPage(),
       );
 
     case placeholder:

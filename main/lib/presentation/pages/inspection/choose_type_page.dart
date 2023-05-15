@@ -13,76 +13,73 @@ class ChooseTypePage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          ChecklistTile(
-            icon: const Icon(
-              Icons.note_add,
-              color: Colors.orangeAccent,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 12.0,
             ),
-            title: const Text(
-              "Inspeksi Harian",
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
+            child: ChecklistTile(
+              icon: const Icon(
+                Icons.note_add,
+                color: Colors.orangeAccent,
               ),
-            ),
-            trailing: ElevatedButton(
-              onPressed: () => Navigator.of(context).pushNamed(
-                iFillHeaderRoute,
-                arguments: "daily",
+              title: "Inspeksi Harian",
+              trailing: ElevatedButton(
+                onPressed: () => Navigator.of(context).pushNamed(
+                  iFillHeaderRoute,
+                  arguments: "daily",
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent,
+                ),
+                child: const Text("Baru"),
               ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orangeAccent,
-              ),
-              child: const Text("Baru"),
-            ),
-          ),
-          ChecklistTile(
-            icon: const Icon(
-              Icons.note_add,
-              color: Colors.orangeAccent,
-            ),
-            title: const Text(
-              "Inspeksi Mingguan",
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            trailing: ElevatedButton(
-              onPressed: () => Navigator.of(context).pushNamed(
-                iFillHeaderRoute,
-                arguments: "weekly",
-              ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orangeAccent,
-              ),
-              child: const Text("Baru"),
             ),
           ),
-          ChecklistTile(
-            icon: const Icon(
-              Icons.note_add,
-              color: Colors.orangeAccent,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 12.0,
             ),
-            title: const Text(
-              "Inspeksi Bulanan",
-              style: TextStyle(
-                color: Colors.black54,
-                fontSize: 16.0,
-                fontWeight: FontWeight.w500,
+            child: ChecklistTile(
+              icon: const Icon(
+                Icons.note_add,
+                color: Colors.orangeAccent,
+              ),
+              title: "Inspeksi Mingguan",
+              trailing: ElevatedButton(
+                onPressed: () => Navigator.of(context).pushNamed(
+                  iFillHeaderRoute,
+                  arguments: "weekly",
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent,
+                ),
+                child: const Text("Baru"),
               ),
             ),
-            trailing: ElevatedButton(
-              onPressed: () => Navigator.of(context).pushNamed(
-                iFillHeaderRoute,
-                arguments: "monthly",
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 8.0,
+              horizontal: 12.0,
+            ),
+            child: ChecklistTile(
+              icon: const Icon(
+                Icons.note_add,
+                color: Colors.orangeAccent,
               ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orangeAccent,
+              title: "Inspeksi Bulanan",
+              trailing: ElevatedButton(
+                onPressed: () => Navigator.of(context).pushNamed(
+                  iFillHeaderRoute,
+                  arguments: "monthly",
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orangeAccent,
+                ),
+                child: const Text("Baru"),
               ),
-              child: const Text("Baru"),
             ),
           ),
         ],

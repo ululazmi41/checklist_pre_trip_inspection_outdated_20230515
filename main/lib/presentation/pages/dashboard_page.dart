@@ -18,30 +18,48 @@ class DashboardPage extends StatelessWidget {
         ),
         body: Column(
           children: <Widget>[
-            ChecklistTile(
-              icon: const Icon(
-                Icons.note_add,
-                color: Colors.orangeAccent,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 12.0,
               ),
-              title: _checklistTileTitle(
+              child: ChecklistTile(
+                icon: const Icon(
+                  Icons.note_add,
+                  color: Colors.orangeAccent,
+                ),
                 title: "Buat Inspeksi Baru",
-              ),
-              trailing: _checklistTileTrailing(
-                context: context,
-                route: iChooseTypeRoute,
+                trailing: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(iChooseTypeRoute);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orangeAccent,
+                  ),
+                  child: const Text("Baru"),
+                ),
               ),
             ),
-            ChecklistTile(
-              icon: const Icon(
-                Icons.library_books,
-                color: Colors.orangeAccent,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 8.0,
+                horizontal: 12.0,
               ),
-              title: _checklistTileTitle(
+              child: ChecklistTile(
+                icon: const Icon(
+                  Icons.library_books,
+                  color: Colors.orangeAccent,
+                ),
                 title: "Inspeksi Saya",
-              ),
-              trailing: _checklistTileTrailing(
-                context: context,
-                route: iMyInspectionRoute,
+                trailing: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(iMyInspectionRoute);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orangeAccent,
+                  ),
+                  child: const Text("Lihat"),
+                ),
               ),
             ),
           ],
@@ -49,30 +67,4 @@ class DashboardPage extends StatelessWidget {
       ),
     );
   }
-}
-
-Text _checklistTileTitle({required String title}) {
-  return Text(
-    title,
-    style: const TextStyle(
-      color: Colors.black54,
-      fontSize: 16.0,
-      fontWeight: FontWeight.w500,
-    ),
-  );
-}
-
-Widget _checklistTileTrailing({
-  required BuildContext context,
-  required String route,
-}) {
-  return ElevatedButton(
-    onPressed: () {
-      Navigator.of(context).pushNamed(route);
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.orangeAccent,
-    ),
-    child: const Text("Baru"),
-  );
 }
